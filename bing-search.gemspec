@@ -11,7 +11,6 @@ Gem::Specification.new do |spec|
   spec.summary               = 'A Ruby client for the Bing Search API'
   spec.homepage              = 'http://github.com/jonahb/bing-search'
   spec.license               = 'MIT'
-  spec.required_ruby_version = '>= 2.0'
   spec.require_paths         = ['lib']
   spec.files                 = Dir['LICENSE.txt', 'README.md', '.yardopts', 'lib/**/*']
 
