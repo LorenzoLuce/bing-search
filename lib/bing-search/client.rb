@@ -150,7 +150,7 @@ module BingSearch
       invoke 'Web',
         query,
         opts,
-        passthrough_opts = %i(file_type),
+        passthrough_opts = [:file_type],
         enum_opt_to_module = {file_type: FileType},
         param_name_replacements = {file_type: 'WebFileType'},
         params = {web_search_options: web_search_options_from_opts(opts)}
@@ -185,7 +185,7 @@ module BingSearch
       invoke 'Video',
         query,
         opts,
-        passthrough_opts = %i(filters sort),
+        passthrough_opts = [:filters, :sort],
         enum_opt_to_module = {filters: VideoFilter, sort: VideoSort},
         param_name_replacements = {filters: 'VideoFilters', sort: 'VideoSortBy'}
     end
@@ -207,7 +207,7 @@ module BingSearch
       invoke 'News',
         query,
         opts,
-        passthrough_opts = %i(category location_override sort),
+        passthrough_opts = [:category, :location_override, :sort],
         enum_opt_to_module = {category: NewsCategory, sort: NewsSort},
         param_name_replacements = {category: 'NewsCategory', location_override: 'NewsLocationOverride', sort: 'NewsSortBy'}
     end
@@ -269,14 +269,14 @@ module BingSearch
       results = invoke('Composite',
         query,
         opts,
-        passthrough_opts = %i(
-          web_file_type
-          video_filters
-          video_sort
-          news_category
-          news_location_override
-          news_sort
-        ),
+        passthrough_opts = [
+          :web_file_type,
+          :video_filters,
+          :video_sort,
+          :news_category,
+          :news_location_override,
+          :news_sort
+        ],
         enum_opt_to_module = {
           web_file_type: FileType,
           video_filters: VideoFilter,
@@ -556,7 +556,7 @@ module BingSearch
     WEB_ONLY_BASE_PATH = '/Bing/SearchWeb'
     private_constant :WEB_ONLY_BASE_PATH
 
-    GENERAL_PASSTHROUGH_OPTS = %i(limit adult latitude longitude market)
+    GENERAL_PASSTHROUGH_OPTS = [:limit, :adult, :latitude, :longitude, :market]
     private_constant :GENERAL_PASSTHROUGH_OPTS
 
     GENERAL_ENUM_OPT_TO_MODULE = {adult: Adult}
