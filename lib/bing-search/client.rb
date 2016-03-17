@@ -23,7 +23,7 @@ module BingSearch
     #   Whether to use the less expensive web-only API. If nil,
     #   {BingSearch.web_only} is assumed.
     #
-    def initialize(account_key: nil, web_only: nil)
+    def initialize(account_key=nil, web_only=nil)
       @session = nil
       @account_key = account_key || BingSearch.account_key
       @web_only = web_only.nil? ? BingSearch.web_only : web_only
@@ -150,10 +150,10 @@ module BingSearch
       invoke 'Web',
         query,
         opts,
-        passthrough_opts: %i(file_type),
-        enum_opt_to_module: {file_type: FileType},
-        param_name_replacements: {file_type: 'WebFileType'},
-        params: {web_search_options: web_search_options_from_opts(opts)}
+        passthrough_opts = %i(file_type),
+        enum_opt_to_module = {file_type: FileType},
+        param_name_replacements = {file_type: 'WebFileType'},
+        params = {web_search_options: web_search_options_from_opts(opts)}
     end
 
     # Searches for images
@@ -170,8 +170,8 @@ module BingSearch
       invoke 'Image',
         query,
         opts,
-        param_name_replacements: {filters: 'ImageFilters'},
-        params: {filters: image_filters_from_opts(opts)}
+        param_name_replacements = {filters: 'ImageFilters'},
+        params = {filters: image_filters_from_opts(opts)}
     end
 
     # Searches for videos
@@ -185,9 +185,9 @@ module BingSearch
       invoke 'Video',
         query,
         opts,
-        passthrough_opts: %i(filters sort),
-        enum_opt_to_module: {filters: VideoFilter, sort: VideoSort},
-        param_name_replacements: {filters: 'VideoFilters', sort: 'VideoSortBy'}
+        passthrough_opts = %i(filters sort),
+        enum_opt_to_module = {filters: VideoFilter, sort: VideoSort},
+        param_name_replacements = {filters: 'VideoFilters', sort: 'VideoSortBy'}
     end
 
     # Searches for news
@@ -207,9 +207,9 @@ module BingSearch
       invoke 'News',
         query,
         opts,
-        passthrough_opts: %i(category location_override sort),
-        enum_opt_to_module: {category: NewsCategory, sort: NewsSort},
-        param_name_replacements: {category: 'NewsCategory', location_override: 'NewsLocationOverride', sort: 'NewsSortBy'}
+        passthrough_opts = %i(category location_override sort),
+        enum_opt_to_module = {category: NewsCategory, sort: NewsSort},
+        param_name_replacements = {category: 'NewsCategory', location_override: 'NewsLocationOverride', sort: 'NewsSortBy'}
     end
 
     # Searches for related queries
@@ -269,7 +269,7 @@ module BingSearch
       results = invoke('Composite',
         query,
         opts,
-        passthrough_opts: %i(
+        passthrough_opts = %i(
           web_file_type
           video_filters
           video_sort
@@ -277,18 +277,18 @@ module BingSearch
           news_location_override
           news_sort
         ),
-        enum_opt_to_module: {
+        enum_opt_to_module = {
           web_file_type: FileType,
           video_filters: VideoFilter,
           video_sort: VideoSort,
           news_category: NewsCategory,
           news_sort: NewsSort
         },
-        param_name_replacements: {
+        param_name_replacements = {
           video_sort: 'VideoSortBy',
           news_sort: 'NewsSortBy'
         },
-        params: {
+        params = {
           sources: sources.collect { |source| enum_value(source, Source) },
           web_search_options: web_search_options_from_opts(opts, :web_),
           image_filters: image_filters_from_opts(opts, :image_)
@@ -345,7 +345,7 @@ module BingSearch
     # @raise [ServiceError]
     # @raise [RuntimeError]
     #
-    def invoke(operation, query, opts, passthrough_opts: [], enum_opt_to_module: {}, param_name_replacements: {}, params: {})
+    def invoke(operation, query, opts, passthrough_opts = [], enum_opt_to_module = {}, param_name_replacements = {}, params = {})
       options = []
       options << 'DisableLocationDetection' if opts[:location_detection] == false
       options << 'EnableHighlighting' if opts[:highlighting]
